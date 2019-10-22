@@ -1,6 +1,5 @@
 Requirements for Alarm Clock Project
--Start voice detection when LED button is pressed
--Tell the pi to set an alarm
--When alarm goes off, user must press the button to turn off alarm
--User must answer predetermined set of math questions (3 of them) before
-the song stops
+-Start voice detection when device is turned on
+-Use "OK Google" hotword to "start the clock" for 1 minute
+-When alarm goes off, user must answer 2 math questions or timer will continue
+Note: User must answer questions after saying "OK Google" again

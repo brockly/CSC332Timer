@@ -1,0 +1,6 @@
+Requirements for Alarm Clock Project
+-Start voice detection when LED button is pressed
+-Tell the pi to set an alarm
+-When alarm goes off, user must press the button to turn off alarm
+-User must answer predetermined set of math questions (3 of them) before
+the song stops

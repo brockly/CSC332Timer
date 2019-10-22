@@ -17,10 +17,10 @@ import time
 
 p = vlc.MediaPlayer("file:///home/pi/Music/George Michael - Careless Whisper.mp3")
 
-#Tell the user the timer has been set and play the music
+#Tell the user the one minute timer has been set and play the music
 def timer():
     tts.say("Timer set for 1 minute")
-    time.sleep(4)
+    time.sleep(60)
     p.play()
     time.sleep(10)
     

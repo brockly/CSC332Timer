@@ -2,7 +2,7 @@ import time
 from aiy.board import Board, Led
 #would have to pass in values from user before the function is called
 def pomodoro(study_session_time, break_time):
-    study_session_time = int(study_session_time)
+    study_session_time = int(study_session_time) * 60
     break_time = int(break_time)
     
     tts.say("Press Google Home button to start. Press Google Home button to stop")

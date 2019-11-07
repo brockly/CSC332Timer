@@ -1,6 +1,6 @@
 # CSC332Timer
 
-## By: Alex Brockman, Carlos Samaniego, Juleo Amosah
+## By: Juleo Amosah, Alex Brockman, Carlos Samaniego
 
 ---
 

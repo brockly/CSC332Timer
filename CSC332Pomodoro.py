@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # CSC 332 Pomodoro Timer
-# Alec Brockman
+# Alex Brockman
 # Carlos Samaniego
 # Jules Amosah
 

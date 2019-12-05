@@ -17,9 +17,18 @@ from aiy.voice.audio import (
     Recorder,
 )
 from aiy.voice import tts
-from gpizero import Servo
-import aiy.voicehat
+#from gpizero import Servo
+#import aiy.voicehat
 import RPi.GPIO as GPIO
+
+#GPIO Mode (BOARD / BCM)
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(26,GPIO.OUT) #Servo slot 0
+GPIO.setup(6,GPIO.OUT)  #Servo slot 1
+GPIO.setup(13,GPIO.OUT) #Servo slot 2
+GPIO.setup(5,GPIO.OUT)  #Servo slot 3
+
 
 class Pomodoro:
     """Handles all Pomodoro logic"""
@@ -27,14 +36,6 @@ class Pomodoro:
     _file = "recording.wav"
 
     _score = 0
-    
-    #set GPIO Pins
-    GPIO_TRIGGER = 4
-    GPIO_ECHO = 5
- 
-    #set GPIO direction (IN / OUT)
-    GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-    GPIO.setup(GPIO_ECHO, GPIO.IN)
 
     def __init__(self, worktime, breaktime):
         self._done = threading.Event()
@@ -46,11 +47,12 @@ class Pomodoro:
         start = time.monotonic()
 
         interval = self._worktime if state == "Working" else self._breaktime
+        
+        third = float(interval / 3)
 
         while not self._done.wait(0.5):
             duration = time.monotonic() - start
-            if duration > interval * 60:
-                break
+            
             print(
                 "{:8s}: {:07.2f} second(s) left [Press button to stop]".format(
                     state, interval * 60 - duration
@@ -58,9 +60,32 @@ class Pomodoro:
                 end="\r",
                 flush=True,
             )
+            
+            #LED light logic
+            if (interval * 60 - duration) > 60 * (2.0 * third):
+                GPIO.output(26,GPIO.HIGH)
+                GPIO.output(6,GPIO.HIGH)
+                GPIO.output(13,GPIO.HIGH)
+            elif (interval * 60 - duration) > 60 * (1.0 * third):
+                GPIO.output(26,GPIO.HIGH)
+                GPIO.output(6,GPIO.HIGH)
+                GPIO.output(13,GPIO.LOW)
+            elif (interval * 60 - duration) > 60 * (0.0 * third):
+                GPIO.output(26,GPIO.HIGH)
+                GPIO.output(6,GPIO.LOW)
+                GPIO.output(13,GPIO.LOW)
+            else:
+                GPIO.output(26,GPIO.LOW)
+                GPIO.output(6,GPIO.LOW)
+                GPIO.output(13,GPIO.LOW)
+                
+            #If the time is over, break
+            if duration > interval * 60:
+                break
+            
 
     def _work(self):
-        tts.say("Time to work!")
+        tts.say("Time to work! The LED lights will turn off as time elapses.")
 
         self._board.led.state = Led.PULSE_SLOW
 
@@ -124,10 +149,37 @@ class Pomodoro:
                 self._score
             )
         )
+    def distance():
+        # set Trigger to HIGH
+        GPIO.output(GPIO_TRIGGER, True)
+     
+        # set Trigger after 0.01ms to LOW
+        time.sleep(0.00001)
+        GPIO.output(GPIO_TRIGGER, False)
+     
+        StartTime = time.time()
+        StopTime = time.time()
+     
+        # save StartTime
+        while GPIO.input(GPIO_ECHO) == 0:
+            StartTime = time.time()
+     
+        # save time of arrival
+        while GPIO.input(GPIO_ECHO) == 1:
+            StopTime = time.time()
+     
+        # time difference between start and arrival
+        TimeElapsed = StopTime - StartTime
+        # multiply with the sonic speed (34300 cm/s)
+        # and divide by 2, because there and back
+        distance = (TimeElapsed * 34300) / 2
+ 
+        return distance
 
 
 def main():
-    Pomodoro(25, 5).start(5)
+    #study time, break time, round times
+    Pomodoro(1, 1).start(2)
 
 
 if __name__ == "__main__":

@@ -21,4 +21,6 @@ We will need these two libraries at a minimum to accomplish our goals:
 - [aiy.voice.audio](https://aiyprojects.readthedocs.io/en/latest/aiy.voice.audio.html) for its audio recorder function
 - [PyLoudness](https://github.com/mr-rigden/pyloudness) for sound measurements
 
-For Part 3 of the timer we are adding ultrasonic sensor and LED functionality. The ultrasonic sensor will allow the device to recognize when a person is missing from their work location and the LEDs will allow the user to understand how far along they are in their work and break stages.
+For Part 3 of the project we are adding ultrasonic sensor and LED functionality. The ultrasonic sensor will allow the device to recognize when a person is missing from their work location and the LEDs will allow the user to understand how far along they are in their work and break stages.
+
+_Note: Ultrasonic sensor functionality is currently missing. It is simply an idea at the moment.
